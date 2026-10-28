@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Administración | Archivo Histórico de Ciudad Lerdo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        /* Paleta oficial — Manual de Identidad Visual, Gobierno de la Ciudad de Lerdo 2025-2028 */
+        --verde-gobierno: #024269;
+        --verde-oscuro: #01293f;
+        --dorado-oficial: #f5b70c;
+        --dorado-brillo: #fbd670;
+        --azul-lerdo: #067ea4;
+        --magenta-lerdo: #cd2071;
+        --verde-lerdo: #7fa92a;
+        --gris-fondo: #f8f9fa;
+        --texto-principal: #2d3748;
+        --blanco: #ffffff;
+        --sombra-premium: 0 10px 25px rgba(0, 0, 0, 0.08);
+        --franja-marca: linear-gradient(
+          90deg,
+          var(--azul-lerdo) 0%,
+          var(--dorado-oficial) 25%,
+          var(--magenta-lerdo) 50%,
+          var(--verde-lerdo) 75%,
+          var(--verde-gobierno) 100%
+        );
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--gris-fondo);
+        color: var(--texto-principal);
+        line-height: 1.6;
+      }
+
+      .top-bar {
+        background-color: var(--verde-oscuro);
+        color: var(--dorado-brillo);
+        font-size: 0.8rem;
+        padding: 0.5rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      }
+
+      .top-bar-crest {
+        height: 20px;
+        width: auto;
+        vertical-align: middle;
+        margin-right: 0.5rem;
+      }
+
+      header {
+        background: linear-gradient(
+          135deg,
+          var(--verde-oscuro) 0%,
+          var(--verde-gobierno) 55%,
+          var(--azul-lerdo) 130%
+        );
+        color: var(--blanco);
+        text-align: center;
+        padding: 3.5rem 1rem 3rem 1rem;
+        position: relative;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: var(--franja-marca);
+      }
+
+      .header-title {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.4rem;
+        font-weight: 900;
+        font-style: italic;
+        letter-spacing: 1px;
+        color: var(--blanco);
+        text-transform: uppercase;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .header-subtitle {
+        font-size: 1.05rem;
+        color: var(--dorado-oficial);
+        margin-top: 0.5rem;
+        font-weight: 300;
+        letter-spacing: 1px;
+      }
+
+      nav {
+        background-color: var(--verde-gobierno);
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      nav button,
+      nav a button {
+        background: none;
+        border: none;
+        color: var(--blanco);
+        padding: 1.2rem 1.8rem;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Montserrat", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 3px solid transparent;
+      }
+
+      nav button:hover,
+      nav button.active {
+        background-color: rgba(255, 255, 255, 0.07);
+        color: var(--dorado-oficial);
+        border-bottom: 3px solid var(--dorado-oficial);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 2.5rem auto;
+        padding: 0 1.5rem;
+      }
+
+      .card-panel {
+        background: var(--blanco);
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: var(--sombra-premium);
+        border-top: 4px solid var(--dorado-oficial);
+        margin-bottom: 2rem;
+      }
+
+      h2.section-header {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-style: italic;
+        color: var(--verde-gobierno);
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+      }
+
+      h2.section-header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background-color: var(--dorado-oficial);
+      }
+
+      /* LOGIN */
+      #loginPanel {
+        max-width: 420px;
+        margin: 3rem auto;
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .form-grid label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--verde-gobierno);
+        margin-bottom: 0.3rem;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+
+      .form-grid input,
+      .form-grid textarea,
+      .form-grid select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #cbd5e0;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        outline: none;
+        background: #fff;
+      }
+
+      .form-grid input:focus,
+      .form-grid textarea:focus,
+      .form-grid select:focus {
+        border-color: var(--azul-lerdo);
+      }
+
+      .form-row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      @media (max-width: 560px) {
+        .form-row-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .btn-principal {
+        display: inline-block;
+        padding: 0.85rem 1.8rem;
+        background-color: var(--verde-gobierno);
+        color: var(--blanco);
+        border: none;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .btn-principal:hover {
+        background-color: var(--azul-lerdo);
+      }
+
+      .btn-principal:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .btn-secundario {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        background: none;
+        color: var(--magenta-lerdo);
+        border: 1px solid var(--magenta-lerdo);
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .btn-secundario:hover {
+        background: rgba(205, 32, 113, 0.08);
+      }
+
+      .mensaje-error {
+        background: rgba(205, 32, 113, 0.08);
+        color: var(--magenta-lerdo);
+        border: 1px solid rgba(205, 32, 113, 0.3);
+        padding: 0.8rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        display: none;
+      }
+
+      .mensaje-exito {
+        background: rgba(127, 169, 42, 0.1);
+        color: #5c7d1f;
+        border: 1px solid rgba(127, 169, 42, 0.35);
+        padding: 0.8rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        display: none;
+      }
+
+      .panel-header-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .sesion-info {
+        font-size: 0.85rem;
+        color: #4a5568;
+      }
+
+      .sesion-info strong {
+        color: var(--verde-gobierno);
+      }
+
+      /* LISTA DE EXPEDIENTES (ADMIN) */
+      .admin-lista {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .admin-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        background: #f7fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        flex-wrap: wrap;
+      }
+
+      .admin-item-info h4 {
+        color: var(--verde-gobierno);
+        font-size: 1rem;
+      }
+
+      .admin-item-info p {
+        font-size: 0.82rem;
+        color: #4a5568;
+      }
+
+      .admin-item-badges {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.3rem;
+      }
+
+      .admin-badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        background: rgba(6, 126, 164, 0.1);
+        color: var(--azul-lerdo);
+      }
+
+      .btn-eliminar {
+        background-color: var(--magenta-lerdo);
+        color: var(--blanco);
+        border: none;
+        padding: 0.55rem 1rem;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.82rem;
+        cursor: pointer;
+        font-family: "Montserrat", sans-serif;
+        white-space: nowrap;
+      }
+
+      .btn-eliminar:hover {
+        background-color: #a3185a;
+      }
+
+      #appPanel {
+        display: none;
+      }
+
+      footer {
+        background-color: var(--verde-oscuro);
+        color: var(--blanco);
+        text-align: center;
+        padding: 2.5rem 1rem;
+        margin-top: 4rem;
+      }
+
+      footer p {
+        font-size: 0.9rem;
+        color: #cbd5e0;
+      }
+
+      footer .gold-text {
+        color: var(--dorado-oficial);
+        font-weight: 800;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <span
+        ><img
+          src="assets/escudo_blanco.png"
+          alt="Escudo Ciudad Jardín"
+          class="top-bar-crest"
+        />Repositorio Histórico y Documental de la Laguna</span
+      >
+      <span>Ciudad Lerdo, Durango</span>
+    </div>
+
+    <header>
+      <img
+        src="assets/escudo_blanco.png"
+        alt="Escudo de Ciudad Lerdo, Ciudad Jardín"
+        class="header-crest"
+        style="height: 72px; margin-bottom: 1rem"
+      />
+      <h1 class="header-title">Panel de Administración</h1>
+      <p class="header-subtitle">Archivo Histórico de Ciudad Lerdo — acceso restringido</p>
+    </header>
+
+    <nav>
+      <a href="index.html" style="text-decoration: none"><button class="nav-btn">Inicio</button></a>
+      <a href="archivos.html" style="text-decoration: none"><button class="nav-btn">Archivo Documental</button></a>
+      <a href="contacto.html" style="text-decoration: none"><button class="nav-btn">Contacto</button></a>
+    </nav>
+
+    <div class="container">
+      <!-- LOGIN -->
+      <section id="loginPanel">
+        <div class="card-panel">
+          <h2 class="section-header">Iniciar sesión</h2>
+          <p style="font-size: 0.9rem; color: #4a5568; margin-bottom: 1.2rem">
+            Acceso exclusivo para personal del archivo encargado de capturar expedientes.
+          </p>
+          <form id="formLogin" class="form-grid">
+            <div>
+              <label for="loginEmail">Correo</label>
+              <input type="email" id="loginEmail" required autocomplete="username" />
+            </div>
+            <div>
+              <label for="loginPassword">Contraseña</label>
+              <input type="password" id="loginPassword" required autocomplete="current-password" />
+            </div>
+            <button type="submit" class="btn-principal" id="btnLogin">Entrar</button>
+          </form>
+          <div class="mensaje-error" id="loginError"></div>
+        </div>
+      </section>
+
+      <!-- PANEL DE ADMINISTRACIÓN -->
+      <section id="appPanel">
+        <div class="card-panel">
+          <div class="panel-header-flex">
+            <h2 class="section-header" style="margin-bottom: 0">Agregar expediente</h2>
+            <div class="sesion-info">
+              Sesión: <strong id="sesionCorreo"></strong>
+              <button class="btn-secundario" id="btnLogout" style="margin-left: 0.8rem">
+                Cerrar sesión
+              </button>
+            </div>
+          </div>
+
+          <form id="formExpediente" class="form-grid">
+            <div class="form-row-2">
+              <div>
+                <label for="fondo">Fondo</label>
+                <input type="text" id="fondo" list="listaFondos" required placeholder="Ej. Ayuntamiento" />
+                <datalist id="listaFondos"></datalist>
+              </div>
+              <div>
+                <label for="titulo">Título</label>
+                <input type="text" id="titulo" required placeholder="Ej. Fondos Gastos Presidencia" />
+              </div>
+            </div>
+
+            <div>
+              <label for="descripcion">Descripción</label>
+              <textarea id="descripcion" rows="2" placeholder="Breve descripción del expediente"></textarea>
+            </div>
+
+            <div class="form-row-2">
+              <div>
+                <label for="anioInicio">Año inicio</label>
+                <input type="number" id="anioInicio" required placeholder="1904" />
+              </div>
+              <div>
+                <label for="anioFin">Año fin</label>
+                <input type="number" id="anioFin" required placeholder="1919" />
+              </div>
+            </div>
+
+            <div>
+              <label for="archivoPdf">Archivo PDF escaneado</label>
+              <input type="file" id="archivoPdf" accept="application/pdf" required />
+            </div>
+
+            <button type="submit" class="btn-principal" id="btnGuardar">Guardar expediente</button>
+          </form>
+          <div class="mensaje-error" id="formError"></div>
+          <div class="mensaje-exito" id="formExito"></div>
+        </div>
+
+        <div class="card-panel">
+          <h2 class="section-header">Expedientes capturados</h2>
+          <p id="listaVacia" style="font-size: 0.9rem; color: #4a5568; display: none">
+            Aún no hay expedientes cargados.
+          </p>
+          <p id="listaCargando" style="font-size: 0.9rem; color: #4a5568">Cargando...</p>
+          <div class="admin-lista" id="listaExpedientes"></div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <p>
+        <span class="gold-text">Archivo Histórico de Ciudad Lerdo</span> &copy;
+        Proyecto de Digitalización Cultural
+      </p>
+      <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7">
+        Panel de administración — acceso restringido al personal autorizado.
+      </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      // --- Conexión a Supabase ---
+      const SUPABASE_URL = "https://ybnucjawbhtqtcsjrlba.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlibnVjamF3Ymh0cXRjc2pybGJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5ODA3NzMsImV4cCI6MjEwNjU1Njc3M30.9F3hsQSE6LREnaqJKagpelkWImnJfRJyLQoBaJqQk-Q";
+
+      const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      const loginPanel = document.getElementById("loginPanel");
+      const appPanel = document.getElementById("appPanel");
+      const loginError = document.getElementById("loginError");
+      const formError = document.getElementById("formError");
+      const formExito = document.getElementById("formExito");
+
+      function mostrarError(el, texto) {
+        el.textContent = texto;
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 6000);
+      }
+
+      function mostrarExito(el, texto) {
+        el.textContent = texto;
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 6000);
+      }
+
+      // --- Revisar si ya hay sesión activa al cargar la página ---
+      async function revisarSesion() {
+        const {
+          data: { session },
+        } = await supabaseClient.auth.getSession();
+
+        if (session) {
+          mostrarPanelAdmin(session.user.email);
+        } else {
+          loginPanel.style.display = "block";
+          appPanel.style.display = "none";
+        }
+      }
+
+      function mostrarPanelAdmin(correo) {
+        loginPanel.style.display = "none";
+        appPanel.style.display = "block";
+        document.getElementById("sesionCorreo").textContent = correo;
+        cargarFondos();
+        cargarExpedientesAdmin();
+      }
+
+      // --- Login ---
+      document.getElementById("formLogin").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("btnLogin");
+        btn.disabled = true;
+        btn.textContent = "Entrando...";
+
+        const correo = document.getElementById("loginEmail").value.trim();
+        const contrasena = document.getElementById("loginPassword").value;
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email: correo,
+          password: contrasena,
+        });
+
+        btn.disabled = false;
+        btn.textContent = "Entrar";
+
+        if (error) {
+          mostrarError(loginError, "Correo o contraseña incorrectos.");
+          return;
+        }
+
+        document.getElementById("formLogin").reset();
+        mostrarPanelAdmin(data.user.email);
+      });
+
+      // --- Logout ---
+      document.getElementById("btnLogout").addEventListener("click", async () => {
+        await supabaseClient.auth.signOut();
+        loginPanel.style.display = "block";
+        appPanel.style.display = "none";
+      });
+
+      // --- Sugerencias de fondos ya existentes ---
+      async function cargarFondos() {
+        const { data, error } = await supabaseClient.from("expedientes").select("fondo");
+        if (error) return;
+        const fondosUnicos = [...new Set(data.map((f) => f.fondo))];
+        const datalist = document.getElementById("listaFondos");
+        datalist.innerHTML = "";
+        fondosUnicos.forEach((f) => {
+          const opt = document.createElement("option");
+          opt.value = f;
+          datalist.appendChild(opt);
+        });
+      }
+
+      // --- Convierte texto en un slug seguro para nombre de archivo ---
+      function hacerSlug(texto) {
+        return texto
+          .toString()
+          .normalize("NFD")
+          .replace(/[̀-ͯ]/g, "")
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "");
+      }
+
+      // --- Guardar nuevo expediente ---
+      document.getElementById("formExpediente").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("btnGuardar");
+        btn.disabled = true;
+        btn.textContent = "Guardando...";
+
+        try {
+          const fondo = document.getElementById("fondo").value.trim();
+          const titulo = document.getElementById("titulo").value.trim();
+          const descripcion = document.getElementById("descripcion").value.trim();
+          const anioInicio = parseInt(document.getElementById("anioInicio").value, 10);
+          const anioFin = parseInt(document.getElementById("anioFin").value, 10);
+          const archivo = document.getElementById("archivoPdf").files[0];
+
+          if (!archivo) {
+            mostrarError(formError, "Selecciona el archivo PDF escaneado.");
+            return;
+          }
+
+          const badgeAnio = anioInicio === anioFin ? `${anioInicio}` : `${anioInicio}-${anioFin}`;
+          const nombreArchivo = `${hacerSlug(titulo)}-${badgeAnio}-${Date.now()}.pdf`;
+
+          // 1) Subir el PDF al bucket "documentos"
+          const { error: errorSubida } = await supabaseClient.storage
+            .from("documentos")
+            .upload(nombreArchivo, archivo, { contentType: "application/pdf" });
+
+          if (errorSubida) {
+            mostrarError(formError, "No se pudo subir el PDF: " + errorSubida.message);
+            return;
+          }
+
+          // 2) Obtener la URL pública del PDF subido
+          const { data: urlData } = supabaseClient.storage
+            .from("documentos")
+            .getPublicUrl(nombreArchivo);
+
+          // 3) Insertar el expediente en la tabla
+          const { error: errorInsert } = await supabaseClient.from("expedientes").insert({
+            fondo,
+            titulo,
+            descripcion,
+            badge_anio: badgeAnio,
+            anio_inicio: anioInicio,
+            anio_fin: anioFin,
+            pdf_url: urlData.publicUrl,
+          });
+
+          if (errorInsert) {
+            mostrarError(formError, "No se pudo guardar el expediente: " + errorInsert.message);
+            return;
+          }
+
+          mostrarExito(formExito, "Expediente guardado y publicado en la página.");
+          document.getElementById("formExpediente").reset();
+          cargarFondos();
+          cargarExpedientesAdmin();
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Guardar expediente";
+        }
+      });
+
+      // --- Listar expedientes existentes con botón de eliminar ---
+      async function cargarExpedientesAdmin() {
+        const lista = document.getElementById("listaExpedientes");
+        const cargando = document.getElementById("listaCargando");
+        const vacia = document.getElementById("listaVacia");
+
+        cargando.style.display = "block";
+        vacia.style.display = "none";
+        lista.innerHTML = "";
+
+        const { data, error } = await supabaseClient
+          .from("expedientes")
+          .select("*")
+          .order("anio_inicio", { ascending: true })
+          .order("id", { ascending: true });
+
+        cargando.style.display = "none";
+
+        if (error) {
+          mostrarError(formError, "No se pudo cargar la lista: " + error.message);
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          vacia.style.display = "block";
+          return;
+        }
+
+        data.forEach((exp) => {
+          const item = document.createElement("div");
+          item.className = "admin-item";
+          item.innerHTML = `
+            <div class="admin-item-info">
+              <h4>${exp.titulo}</h4>
+              <p>${exp.descripcion ?? ""}</p>
+              <div class="admin-item-badges">
+                <span class="admin-badge">${exp.badge_anio ?? "S/F"}</span>
+                <span class="admin-badge">${exp.fondo}</span>
+              </div>
+            </div>
+            <button class="btn-eliminar" data-id="${exp.id}">Eliminar</button>
+          `;
+          item.querySelector(".btn-eliminar").addEventListener("click", () => eliminarExpediente(exp.id));
+          lista.appendChild(item);
+        });
+      }
+
+      async function eliminarExpediente(id) {
+        if (!confirm("¿Seguro que quieres eliminar este expediente? Esta acción no se puede deshacer.")) {
+          return;
+        }
+        const { error } = await supabaseClient.from("expedientes").delete().eq("id", id);
+        if (error) {
+          mostrarError(formError, "No se pudo eliminar: " + error.message);
+          return;
+        }
+        cargarExpedientesAdmin();
+      }
+
+      revisarSesion();
+    </script>
+  </body>
+</html>
